@@ -3,6 +3,7 @@
 const express = require("express");
 const mongoose = require('mongoose');
 const bodyParser = require("body-parser");
+const config = require('./config')
 
 const app = express();
 const router = express.Router();
@@ -11,7 +12,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 
-mongoose.connect('mongodb://cadastromedico:mongo123@ds051831.mlab.com:51831/cadastromedico', { useNewUrlParser: true , useUnifiedTopology: true  })
+mongoose.connect(config.connectionString, { useNewUrlParser: true , useUnifiedTopology: true  })
 
 
 // Carrega as Rotas
