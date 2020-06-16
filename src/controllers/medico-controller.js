@@ -4,9 +4,11 @@ const ValidationContract = require('../validators/fluent-validator');
 const repository = require('../repositories/medico-repository');
 const md5 = require('md5');
 const authService = require('../services/auth-service');
+const mongoose = require('mongoose');
+const Contato = mongoose.model('Medico');
 
 
-exports.post = async(req, res, next) => {
+exports.post = async (req, res, next) => {
     let contract = new ValidationContract();
     contract.hasMinLen(req.body.name, 3, 'O nome deve conter pelo menos 3 caracteres');
     contract.isEmail(req.body.email, 'E-mail inválido');
@@ -36,7 +38,7 @@ exports.post = async(req, res, next) => {
     }
 };
 
-exports.authenticate = async(req, res, next) => {
+exports.authenticate = async (req, res, next) => {
     try {
         const medico = await repository.authenticate({
             email: req.body.email,
@@ -71,7 +73,7 @@ exports.authenticate = async(req, res, next) => {
     }
 };
 
-exports.refreshToken = async(req, res, next) => {
+exports.refreshToken = async (req, res, next) => {
     try {
         const token = req.body.token || req.query.token || req.headers['x-access-token'];
         const data = await authService.decodeToken(token);
