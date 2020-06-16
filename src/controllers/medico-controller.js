@@ -5,7 +5,6 @@ const repository = require('../repositories/medico-repository');
 const md5 = require('md5');
 const authService = require('../services/auth-service');
 
-const emailService = require('../services/email-service');
 
 exports.post = async(req, res, next) => {
     let contract = new ValidationContract();
@@ -26,11 +25,6 @@ exports.post = async(req, res, next) => {
             password: md5(req.body.password + global.SALT_KEY),
             roles: ["user"]
         });
-
-        emailService.send(
-            req.body.email,
-            'Bem vindo ao Node Store',
-            global.EMAIL_TMPL.replace('{0}', req.body.name));
 
         res.status(201).send({
             message: 'Medico cadastrado com sucesso!'
