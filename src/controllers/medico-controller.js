@@ -4,16 +4,11 @@ const ValidationContract = require('../validators/fluent-validator');
 const repository = require('../repositories/medico-repository');
 const md5 = require('md5');
 const authService = require('../services/auth-service');
-const mongoose = require('mongoose');
-const Contato = mongoose.model('Medico');
+
 
 
 exports.post = async (req, res, next) => {
-    let contract = new ValidationContract();
-    contract.hasMinLen(req.body.name, 3, 'O nome deve conter pelo menos 3 caracteres');
-    contract.isEmail(req.body.email, 'E-mail inválido');
-    contract.hasMinLen(req.body.password, 6, 'A senha deve conter pelo menos 6 caracteres');
-
+    
     // Se os dados forem inválidos
     if (!contract.isValid()) {
         res.status(400).send(contract.errors()).end();
@@ -24,8 +19,8 @@ exports.post = async (req, res, next) => {
         await repository.create({
             name: req.body.name,
             email: req.body.email,
-            password: md5(req.body.password + global.SALT_KEY),
-            roles: ["user"]
+            password: md5(req.body.password + global.SALT_KEY)
+           
         });
 
         res.status(201).send({

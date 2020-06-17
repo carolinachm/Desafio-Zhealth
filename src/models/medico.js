@@ -2,7 +2,7 @@
 
 const mongoose = require("mongoose");
 
-const MedicoSchema = new mongoose.Schema({
+const schema = new mongoose.Schema({
   CPF: {
     type: String,
     required: true
@@ -47,4 +47,4 @@ const MedicoSchema = new mongoose.Schema({
   }],
 });
 
-mongoose.model('Medico', MedicoSchema);
+mongoose.model('Medico', schema);

@@ -23,4 +23,4 @@ const schema = new Schema({
     
 });
 
-module.exports = mongoose.model('Prescicao', schema);
+module.exports = mongoose.model('Prescricao', schema);

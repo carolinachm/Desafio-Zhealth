@@ -21,15 +21,3 @@ exports.create = async(data) => {
     await prescricao.save();
 }
 
-exports.update = async(id, data) => {
-    await Prescricao
-        .findByIdAndUpdate(id, {
-            $set: {
-              
-                description: data.description,
-               
-            }
-        });
-}
-
-

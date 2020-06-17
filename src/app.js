@@ -10,14 +10,14 @@ const router = express.Router();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
+// Connecta ao banco
 mongoose.connect(config.connectionString, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
 // Carrega os Models
-const Medico = require('./models/medico');
+const Medico = require('./models/medico')
 const Prescricao = require('./models/prescricao');
 
 // Carrega as Rotas

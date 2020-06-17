@@ -1,5 +1,6 @@
 'use strict';
 const mongoose = require('mongoose');
+const Medico = mongoose.model('Medico')
 
 exports.create = async(data) => {
     var medico = new Medico(data);
