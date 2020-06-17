@@ -47,6 +47,7 @@ exports.post = async (req, res, next) => {
         });
     }
 };
+
 exports.getById = async (req, res, next) => {
     try {
         var data = await repository.getById(req.params.id);
@@ -59,10 +60,17 @@ exports.getById = async (req, res, next) => {
 }
 
 exports.authenticate = async (req, res, next) => {
-    console.log('object');
+
+    // TODO: encapsular apenas o ID do médico autenticado
+    // TODO: o retorno do repository.authenticate pode vir já apenas com o ID
+    //      não precisa vir com todas as informações do médico
+    //      só vai usar o ID para encapsular no token
+    //      Evita tráfego de dados que não serão usados, risco interceptação e exposição
+    //      ex.: medico.findOne({email:"", senha:""},{"id":1})
+
     try {
         const medico = await repository.authenticate({
-            email: req.body.email,
+            ...req.body,
             senha: md5(req.body.senha + global.SALT_KEY)
         });
 
@@ -76,7 +84,7 @@ exports.authenticate = async (req, res, next) => {
         const token = await authService.generateToken({
             id: medico._id,
             email: medico.email,
-            name: medico.name,
+            nome: medico.nome,
             roles: medico.roles
         });
 
@@ -84,7 +92,7 @@ exports.authenticate = async (req, res, next) => {
             token: token,
             data: {
                 email: medico.email,
-                name: medico.name
+                nome: medico.nome
             }
         });
     } catch (e) {
@@ -111,7 +119,7 @@ exports.refreshToken = async (req, res, next) => {
         const tokenData = await authService.generateToken({
             id: medico._id,
             email: medico.email,
-            name: medico.name,
+            nome: medico.nome,
             roles: medico.roles
         });
 
@@ -119,7 +127,7 @@ exports.refreshToken = async (req, res, next) => {
             token: token,
             data: {
                 email: medico.email,
-                name: medico.name
+                nome: medico.nome
             }
         });
     } catch (e) {

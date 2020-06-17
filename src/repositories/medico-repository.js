@@ -13,11 +13,9 @@ exports.create = async (data) => {
 }
 
 exports.authenticate = async (data) => {
-    const res = await Medico.findOne({
-        email: data.email,
-        password: data.password
+    return await Medico.findOne({
+        ...data
     });
-    return res;
 }
 
 exports.getById = async (id) => {
