@@ -2,14 +2,14 @@
 const mongoose = require('mongoose');
 const Medico = mongoose.model('Medico')
 
-exports.get = async() => {
+exports.get = async () => {
     const res = await Medico.find();
     return res;
 }
 
-exports.create = async(data) => {
+exports.create = async (data) => {
     var medico = new Medico(data);
-    await medico.save();
+    return await medico.save();
 }
 
 exports.authenticate = async (data) => {

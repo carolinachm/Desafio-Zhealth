@@ -3,7 +3,7 @@
 const mongoose = require("mongoose");
 
 const schema = new mongoose.Schema({
-  CPF: {
+  cpf: {
     type: String,
     required: true
   },
@@ -19,11 +19,11 @@ const schema = new mongoose.Schema({
     type: String,
     required: true
   },
-  CRM: {
+  crm: {
     type: String,
     required: true
   },
-  estadoRegistroCRM: {
+  estadoRegistroCrm: {
     type: String,
     required: true
   },

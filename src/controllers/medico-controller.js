@@ -5,7 +5,7 @@ const repository = require('../repositories/medico-repository');
 const md5 = require('md5');
 const authService = require('../services/auth-service');
 
-exports.get = async(req, res, next) => {
+exports.get = async (req, res, next) => {
     try {
         var data = await repository.get();
         res.status(200).send(data);
@@ -18,31 +18,36 @@ exports.get = async(req, res, next) => {
 
 
 exports.post = async (req, res, next) => {
-    
+
     // Se os dados forem inválidos
-    if (!contract.isValid()) {
-        res.status(400).send(contract.errors()).end();
+    if (!ValidationContract.prototype.isValid()) {
+        res.status(400).send(ValidationContract.prototype.errors()).end();
         return;
     }
 
-    try {
-        await repository.create({
-            name: req.body.name,
-            email: req.body.email,
-            password: md5(req.body.password + global.SALT_KEY)
-           
-        });
+    // TODO: validar se e-mail já existe para não permitir cadastrar médicos iguais
+    // TODO: marcar o campo email no schema como unique:true
+    // TODO: validar se o campo de confirmação de senha é o mesmo do campo senha
+    // TODO: validar se todos os campos obrigatórios (required) foram informados
+    // TODO: não deve salvar a confirmação de senha
 
-        res.status(201).send({
-            message: 'Medico cadastrado com sucesso!'
+    try {
+        req.body.senha = md5(req.body.senha + global.SALT_KEY);
+
+        const medico = await repository.create(req.body);
+
+        res.status(200).json({
+            message: 'Medico cadastrado com sucesso!',
+            medico
         });
     } catch (e) {
-        res.status(500).send({
-            message: 'Falha ao processar sua requisição'
+        res.status(500).json({
+            message: 'Falha ao processar sua requisição',
+            error: e
         });
     }
 };
-exports.getById = async(req, res, next) => {
+exports.getById = async (req, res, next) => {
     try {
         var data = await repository.getById(req.params.id);
         res.status(200).send(data);
@@ -54,10 +59,11 @@ exports.getById = async(req, res, next) => {
 }
 
 exports.authenticate = async (req, res, next) => {
+    console.log('object');
     try {
         const medico = await repository.authenticate({
             email: req.body.email,
-            password: md5(req.body.password + global.SALT_KEY)
+            senha: md5(req.body.senha + global.SALT_KEY)
         });
 
         if (!medico) {
