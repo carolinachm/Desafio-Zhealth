@@ -5,6 +5,16 @@ const repository = require('../repositories/medico-repository');
 const md5 = require('md5');
 const authService = require('../services/auth-service');
 
+exports.get = async(req, res, next) => {
+    try {
+        var data = await repository.get();
+        res.status(200).send(data);
+    } catch (e) {
+        res.status(500).send({
+            message: 'Falha ao processar sua requisição'
+        });
+    }
+}
 
 
 exports.post = async (req, res, next) => {
@@ -32,6 +42,16 @@ exports.post = async (req, res, next) => {
         });
     }
 };
+exports.getById = async(req, res, next) => {
+    try {
+        var data = await repository.getById(req.params.id);
+        res.status(200).send(data);
+    } catch (e) {
+        res.status(500).send({
+            message: 'Falha ao processar sua requisição'
+        });
+    }
+}
 
 exports.authenticate = async (req, res, next) => {
     try {
