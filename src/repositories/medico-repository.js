@@ -22,3 +22,19 @@ exports.getById = async (id) => {
     const res = await Medico.findById(id);
     return res;
 }
+exports.update = async(id, data) => {
+    await Medico
+        .findByIdAndUpdate(id, {
+            $set: {
+                title: data.title,
+                description: data.description,
+                price: data.price,
+                slug: data.slug
+            }
+        });
+}
+
+exports.delete = async(id) => {
+    await Product
+        .findOneAndRemove(id);
+}
