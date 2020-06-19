@@ -14,7 +14,7 @@ exports.get = async (req, res, next) => {
             })
         }
 }
-
+// Metodo para o id do medico cadastrado poder ver a prescricao
 exports.getById = async (req, res, next) => {
     const id = req.params.id_prescricao
     if(id === 'especial'){
