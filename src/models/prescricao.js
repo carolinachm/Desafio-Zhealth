@@ -14,7 +14,8 @@ const schema = new mongoose.Schema({
         type: String
     },
     dataNascimentoPaciente: {
-        type: Date
+        type: Date,
+        required: false
     },
     descricaoMedicamento: {
         type: String

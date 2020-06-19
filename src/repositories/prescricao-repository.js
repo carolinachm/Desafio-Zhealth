@@ -6,8 +6,8 @@ const Prescricao = mongoose.model("Prescricao");
 
 exports.get = async (data) => {
     const res = await Prescricao
-    .find({}, 'cpfPaciente nomePaciente')
-    .populate('medico', 'nome')
+    .findOne({nome: 'teste'})
+    .populate('medico','cpf', 'nome')
     return res
 }
 exports.getById = async (id) => {
