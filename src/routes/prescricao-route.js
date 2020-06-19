@@ -2,13 +2,14 @@
 
 const express = require('express');
 const router = express.Router();
-const controller = require('../controllers/prescricao-controller');
-const authService = require('../services/auth-service');
 
+const prescricaoController = require('../controllers/prescricao.controllerr')
 
-router.get('/', controller.get);
-router.get('/admin/:id', controller.getById);
-router.post('/', authService.authorize, controller.post);
+router.get('/', prescricaoController.get)
+router.get('/admin/:id', prescricaoController.getById)
+router.post('/', prescricaoController.post)
+router.put('/:id', prescricaoController.put)
+
 
 
 

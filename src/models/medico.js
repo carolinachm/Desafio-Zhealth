@@ -4,47 +4,33 @@ const mongoose = require("mongoose");
 
 const schema = new mongoose.Schema({
   cpf: {
-    type: String,
-    required: true
+    type: String
   },
   email: {
-    type: String,
-    required: true
+    type: String
   },
   nome: {
-    type: String,
-    required: true
+    type: String
   },
   dataNascimento: {
-    type: String,
-    required: true
+    type: Date
   },
   crm: {
-    type: String,
-    required: true
+    type: Number
   },
   estadoRegistroCrm: {
     type: String,
-    required: true
   },
   sexo: {
-    type: String,
-    required: true
+    type: String
   },
   senha: {
-    type: String,
-    required: true
+    type: String
   },
   confirmacaoSenha: {
-    type: String,
-    required: true
+    type: String
   },
-  roles: [{
-    type: String,
-    required: true,
-    enum: ["user", "admin"],
-    default: "user",
-  }],
+ 
 });
 
-mongoose.model('Medico', schema);
+module.exports = mongoose.model('Medico', schema);

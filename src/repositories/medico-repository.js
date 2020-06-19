@@ -1,40 +1,37 @@
-'use strict';
-const mongoose = require('mongoose');
-const Medico = mongoose.model('Medico')
+"use strict";
+
+const mongoose = require("mongoose");
+const Medico = mongoose.model("Medico");
+
 
 exports.get = async () => {
-    const res = await Medico.find();
-    return res;
+    const res = await Medico.find({})
+    return res
 }
-
+exports.getById = async (id) => {
+    const res = await Medico.findById(id)
+    return res
+}
 exports.create = async (data) => {
     var medico = new Medico(data);
-    return await medico.save();
+    await medico.save()
+}
+exports.update = async (id, data) => {
+    await Medico.updateOne(id, {
+        $set: {
+          cpf: data.cpf,
+          email: data.email,
+          nome: data.nome,
+          dataNascimento: data.dataNascimento,
+          crm: data.crm,
+          estadoRegistroCrm: data.estadoRegistroCrm,
+          sexo: data.sexo,
+          senha: data.senha,
+          confirmacaoSenha: data.confirmacaoSenha
+        },
+      })
+}
+exports.delete = async (id) => {
+    await Medico.deleteOne(id)
 }
 
-exports.authenticate = async (data) => {
-    return await Medico.findOne({
-        ...data
-    });
-}
-
-exports.getById = async (id) => {
-    const res = await Medico.findById(id);
-    return res;
-}
-exports.update = async(id, data) => {
-    await Medico
-        .findByIdAndUpdate(id, {
-            $set: {
-                title: data.title,
-                description: data.description,
-                price: data.price,
-                slug: data.slug
-            }
-        });
-}
-
-exports.delete = async(id) => {
-    await Product
-        .findOneAndRemove(id);
-}

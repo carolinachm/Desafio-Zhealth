@@ -3,18 +3,12 @@
 const express = require('express');
 const router = express.Router();
 
-const controller = require('../controllers/medico-controller')
-const authService = require('../services/auth-service');
+const medicoController = require('../controllers/medico-controller')
 
-router.get('/', controller.get)
-router.get('/:id', controller.getById);
-router.post("/", controller.post);
-router.put("/:id",controller.put);
-router.delete("/", controller.delete);
-
-router.post('/authenticate', controller.authenticate);
-router.post('/refresh-token', authService.authorize, controller.refreshToken);
-
-
+router.get('/', medicoController.get)
+router.get('/admin/:id', medicoController.getById)
+router.post('/', medicoController.post)
+router.put('/:id', medicoController.put)
+router.delete('/', medicoController.delete)
 
 module.exports = router;  

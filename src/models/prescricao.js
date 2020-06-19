@@ -14,7 +14,7 @@ const schema = new mongoose.Schema({
         type: String
     },
     dataNascimentoPaciente: {
-        type: String
+        type: Date
     },
     descricaoMedicamento: {
         type: String
@@ -22,4 +22,4 @@ const schema = new mongoose.Schema({
 
 });
 
-mongoose.model('Prescricao', schema);
+module.exports = mongoose.model('Prescricao', schema);
