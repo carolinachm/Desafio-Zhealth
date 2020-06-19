@@ -4,8 +4,10 @@ const mongoose = require("mongoose");
 const Prescricao = mongoose.model("Prescricao");
 
 
-exports.get = async () => {
-    const res = await Prescricao.find({})
+exports.get = async (data) => {
+    const res = await Prescricao
+    .find({}, 'cpfPaciente nomePaciente')
+    .populate('medico', 'nome')
     return res
 }
 exports.getById = async (id) => {
@@ -13,21 +15,17 @@ exports.getById = async (id) => {
     return res
 }
 exports.create = async (data) => {
-    var prescricao = new Medico(data);
+    var prescricao = new Prescricao(data);
     await prescricao.save()
 }
 exports.update = async (id, data) => {
     await Prescricao.updateOne(id, {
         $set: {
-          cpf: data.cpf,
-          email: data.email,
-          nome: data.nome,
-          dataNascimento: data.dataNascimento,
-          crm: data.crm,
-          estadoRegistroCrm: data.estadoRegistroCrm,
-          sexo: data.sexo,
-          senha: data.senha,
-          confirmacaoSenha: data.confirmacaoSenha
+            medico: data.medico,
+            cpfPaciente: data.cpfPaciente,
+            nomePaciente: data.nomePaciente,
+            dataNascimentoPaciente: data.dataNascimentoPaciente,
+            descricaoMedicamento: data.descricaoMedicamento
         },
       })
 }

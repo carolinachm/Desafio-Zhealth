@@ -6,7 +6,7 @@ exports.get = async (req, res, next) => {
         var data = await prescricaoRepository.get()
         res.status(200).send({
           mensagem: "Lista de prescricaos cadastrados",
-          listaprescricao: data,
+          listaprescricao: data
         })
     }catch(e){
             res.status(500).send({
@@ -43,7 +43,13 @@ exports.getById = async (req, res, next) => {
 
 exports.post = async (req, res, next) => {
     try{ 
-        var data = await prescricaoRepository.create(req.body)
+        var data = await prescricaoRepository.create({
+            medico: req.body.medico,
+            cpfPaciente: req.body.cpfPaciente,
+            nomePaciente: req.body.nomePaciente,
+            dataNascimentoPaciente: req.body.dataNascimentoPaciente,
+            descricaoMedicamento: req.body.descricaoMedicamento
+        })
         res.status(201).send({
           mensagem: "Cadastrar um prescricao",
           prescricaoCriado: data,

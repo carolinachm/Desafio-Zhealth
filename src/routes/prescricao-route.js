@@ -3,7 +3,7 @@
 const express = require('express');
 const router = express.Router();
 
-const prescricaoController = require('../controllers/prescricao.controllerr')
+const prescricaoController = require('../controllers/prescricao.controller')
 
 router.get('/', prescricaoController.get)
 router.get('/admin/:id', prescricaoController.getById)
