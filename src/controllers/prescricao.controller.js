@@ -1,5 +1,6 @@
 "use strict";
 const prescricaoRepository = require('../repositories/prescricao-repository')
+const authService = require('../services/auth-service');
 
 exports.get = async (req, res, next) => {
     try{ 
@@ -16,24 +17,20 @@ exports.get = async (req, res, next) => {
 }
 // Metodo para o id do medico cadastrado poder ver a prescricao
 exports.getById = async (req, res, next) => {
-    const id = req.params.id_prescricao
-    if(id === 'especial'){
-        res.status(200).send({
-            mensagem: "Busca a prescricao pelo id do medico cadastrado",
-            id: id
-        })
-    }else {
-        res.status(200).send({
-            mensagem: "vc nao pode realizar consulta",
-        })
-    }
+    
     try{
-         var data = await prescricaoRepository.getById(req.params.id)
-         
-        res.status(200).send({
-          mensagem: "Lista de prescricaos cadastrada",
-          listaprescricao: data,
-        })
+         var data = await prescricaoRepository.getById(req.params.id_medico)
+        if(id != id_medico){
+            res.status(400).send({
+                message: "Falha ao processar sua requisição"
+
+        }) }else{
+            res.status(200).send({
+                mensagem: "Lista de prescricaos cadastrada",
+                listaprescricao: data,
+              })
+        }
+        
     }catch(e){
         res.status(500).send({
         message: "Falha ao processar sua requisição"
@@ -43,16 +40,20 @@ exports.getById = async (req, res, next) => {
 
 exports.post = async (req, res, next) => {
     try{ 
-        var data = await prescricaoRepository.create({
-            medico: req.body.medico,
+        //recupera o token
+        const token = req.body.token || req.query.token || req.headers['x-access-token'];
+        //decodifica o token
+        const data = await authService.decodeToken(token);
+
+      await prescricaoRepository.create({
+            medico: data.id,
             cpfPaciente: req.body.cpfPaciente,
             nomePaciente: req.body.nomePaciente,
             dataNascimentoPaciente: req.body.dataNascimentoPaciente,
             descricaoMedicamento: req.body.descricaoMedicamento
         })
         res.status(201).send({
-          mensagem: "Cadastrar um prescricao",
-          prescricaoCriado: data,
+          mensagem: "Cadastrar um prescricao"
         })
     }catch(e){
         res.status(500).send({

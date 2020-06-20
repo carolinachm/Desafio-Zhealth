@@ -5,7 +5,7 @@ const Medico = mongoose.model("Medico");
 
 
 exports.get = async () => {
-    const res = await Medico.find({})
+    const res = await Medico.find({}).populate('prescricao')
     return res
 }
 exports.getById = async (id) => {
@@ -16,8 +16,15 @@ exports.create = async (data) => {
     var medico = new Medico(data);
     await medico.save()
 }
+exports.authenticate = async (data) => {
+    const res = await Medico.findOne({
+        email: data.email,
+        senha: data.senha
+    })
+    return res
+}
 exports.update = async (id, data) => {
-    await Medico.updateOne(id, {
+    await Medico.findByIdAndUpdate(id, {
         $set: {
           cpf: data.cpf,
           email: data.email,
@@ -32,6 +39,6 @@ exports.update = async (id, data) => {
       })
 }
 exports.delete = async (id) => {
-    await Medico.deleteOne(id)
+    await Medico.findByIdAndDelete(id)
 }
 

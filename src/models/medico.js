@@ -13,7 +13,8 @@ const schema = new mongoose.Schema({
     type: String
   },
   dataNascimento: {
-    type: Date
+    type: Date,
+    required: true
   },
   crm: {
     type: Number
@@ -25,12 +26,18 @@ const schema = new mongoose.Schema({
     type: String
   },
   senha: {
-    type: String
+    type: String,
+    required: true
   },
   confirmacaoSenha: {
     type: String
   },
- 
+  roles: [{
+    type: String,
+    required: true,
+    enum: ['user', 'admin'],
+    default: 'user'
+}] 
 });
 
 module.exports = mongoose.model('Medico', schema);

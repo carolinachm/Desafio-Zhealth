@@ -1,7 +1,5 @@
-FROM node:4.3.2
-
-RUN useradd --user-group --create-home --shell /bin/false app &&\
-  npm install --global npm@3.7.5
+FROM node:12.18.1-alpine3.12
+RUN npm install --global npm@6.14.5
 
 ENV HOME=/home/carolina/documentos/desafio_zhealth
 
@@ -16,3 +14,4 @@ USER root
 COPY . $HOME/library
 RUN chown -R app:app $HOME/*
 USER app
+
